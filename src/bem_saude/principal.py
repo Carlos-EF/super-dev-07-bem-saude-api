@@ -10,7 +10,7 @@ Ou para produção:
 """
 
 
-from bem_saude.api import app
+from bem_saude.api.app import app
 
 
 __all__ = ["app"]
