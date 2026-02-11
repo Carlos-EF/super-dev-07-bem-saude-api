@@ -69,7 +69,7 @@ class PacienteCriarRequest(BaseModel):
     observacoes: str = Field(
         ...,
         description="Observações do paciente.",
-        examples=""
+        examples=[""]
     )
 
     model_config= {
@@ -124,7 +124,7 @@ class PacienteAlterarRequest(BaseModel):
     observacoes: str = Field(
         ...,
         description="Observações do paciente.",
-        examples=""
+        examples=[""]
     )
 
     model_config= {
@@ -200,7 +200,7 @@ class PacienteResponse(BaseModel):
     observacoes: str = Field(
         ...,
         description="Observações do paciente.",
-        examples=""
+        examples=[""]
     )
 
     criado_em: datetime = Field(
