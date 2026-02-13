@@ -48,8 +48,18 @@ class RepositorioPaciente:
         return True
     
 
+    def ativar(self, id: UUID):
+        paciente = self.sessao.query(ModeloPaciente).filter(ModeloPaciente.id == id).first()
+        if not paciente:
+            return False
+        
+        paciente.status = "ATIVO"
+        self.sessao.commit()
+        return True
+    
+
     def listar(self) -> list[ModeloPaciente]:
-        pacientes = self.sessao.query(ModeloPaciente).all()
+        pacientes = self.sessao.query(ModeloPaciente).order_by(ModeloPaciente.status, ModeloPaciente.nome).all()
 
         return pacientes
     

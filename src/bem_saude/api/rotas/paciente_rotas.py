@@ -156,3 +156,26 @@ def alterar_paciente(
             status_code=HTTPStatus.NOT_FOUND, 
             detail="Paciente não encontrado."
             )
+    
+
+@router.put(
+    "/{id}/ativar",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Ativar paciente",
+    responses={
+        204: {
+            "description": "Paciente ativado com sucesso"
+        },
+        404: {
+            "description": "Paciente não encontrado"
+        },
+    },
+)
+def ativar_paciente(
+    id: UUID,
+    session: Session = Depends(obter_sessao)
+):
+    repositorio = RepositorioPaciente(sessao=session)
+    ativou = repositorio.ativar(id)
+    if not ativou:
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Paciente não encontrado")

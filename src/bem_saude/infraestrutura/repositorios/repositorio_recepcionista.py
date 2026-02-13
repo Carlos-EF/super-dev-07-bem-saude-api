@@ -1,4 +1,5 @@
 from uuid import UUID
+from bem_saude.dominio.enums.status_cadastro import StatusCadastro
 from bem_saude.infraestrutura.banco_dados.modelos.modelo_recepcionista import ModeloRecepcionista
 
 from sqlalchemy.orm import Session
@@ -18,7 +19,7 @@ class RepositorioRecepcionista:
 
 
     def listar(self) -> list[ModeloRecepcionista]:
-        modelos = self.sessao.query(ModeloRecepcionista).all()
+        modelos = self.sessao.query(ModeloRecepcionista).order_by(ModeloRecepcionista.status, ModeloRecepcionista.nome).all()
         return modelos
     
 
@@ -45,4 +46,15 @@ class RepositorioRecepcionista:
         
         modelo.nome = nome
         self.sessao.commit()
+        return True
+    
+
+    def ativar(self, id: UUID):
+        recepcionista = self.sessao.query(ModeloRecepcionista).filter(ModeloRecepcionista.id == id).first()
+        if not recepcionista:
+            return False
+        
+        recepcionista.status = StatusCadastro.ATIVO.value
+        self.sessao.commit()
+
         return True

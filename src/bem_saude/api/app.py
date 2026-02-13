@@ -11,6 +11,7 @@ Configura e inicializa a aplicação FastAPI com todas as dependências:
 
 import logging
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from bem_saude.api.configuracoes import configuracoes
 from bem_saude.api.rotas.recepcionista_rotas import  router as recepcionista_router
 from bem_saude.api.rotas.paciente_rotas import router as paciente_router
@@ -47,6 +48,19 @@ def criar_aplicacao() -> FastAPI:
             openapi_url="/openapi.json",
         )
     
+    logger.info("Configurando middleware de CORS")
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[
+            "http://localhost:4200",
+            "http://bemsaude.com.br",
+        ],
+        allow_credencials=False,
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allow_headers=["*"]
+    )
+
+
     logger.info("Configurando middleware de logs")
 
 

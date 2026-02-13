@@ -122,3 +122,29 @@ def alterar_recepcionista(id: UUID, dados: RecepcionistaAlterarRequest, session:
     alterou = repositorio.editar(id, dados.nome)
     if not alterou:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Recepcionista não encontrado")
+    
+
+@router.put(
+    "/{id}/ativar",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Ativar recepcionista",
+    responses={
+        204: {
+            "description": "Recepcionista ativado com sucesso"
+        },
+        404: {
+            "description": "Recepcionista não encontrado"
+        },
+    },
+)
+def ativar_recepcionista(
+    id: UUID,
+    session: Session = Depends(obter_sessao),
+):
+    repositorio = RepositorioRecepcionista(sessao=session)
+
+    ativou = repositorio.ativar(id)
+    if not ativou:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail="Recepcionista não encontrado."
+        )
