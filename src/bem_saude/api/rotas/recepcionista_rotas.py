@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from uuid6 import uuid7
 
+from bem_saude.api.auth import validar_token
 from bem_saude.api.schemas.recepcionista_schemas import RecepcionistaAlterarRequest, RecepcionistaCriarRequest, RecepcionistaResponse
 from bem_saude.infraestrutura.banco_dados.conexao import obter_sessao
 from bem_saude.infraestrutura.banco_dados.modelos.modelo_recepcionista import ModeloRecepcionista
@@ -14,7 +15,8 @@ from bem_saude.infraestrutura.repositorios.repositorio_recepcionista import Repo
 
 router = APIRouter(
     prefix="/recepcionistas",
-    tags=["Recepcionista"]
+    tags=["Recepcionista"],
+    dependencies=[Depends(validar_token)]
 )
 @router.post(
     "", 

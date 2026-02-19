@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from uuid6 import uuid7
 
+from bem_saude.api.auth import validar_token
 from bem_saude.infraestrutura.banco_dados.conexao import obter_sessao
 from bem_saude.infraestrutura.banco_dados.modelos.modelo_paciente import ModeloPaciente
 from bem_saude.infraestrutura.repositorios.repositorio_paciente import RepositorioPaciente
@@ -12,7 +13,8 @@ from bem_saude.api.schemas.pacientes_schemas import PacienteAlterarRequest, Paci
 
 router = APIRouter(
     prefix="/pacientes",
-    tags=["Paciente"]
+    tags=["Paciente"],
+    dependencies=[Depends(validar_token)]
 )
 @router.post(
     "",
